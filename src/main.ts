@@ -13,7 +13,7 @@ let counter: number = 0;
 const interval: number = 1000;
 
 const counterDiv = document.createElement("div");
-counterDiv.innerHTML = `${counter} dino's 🦕`;
+counterDiv.innerHTML = `${counter.toFixed(2)} dino's 🦕`;
 app.append(counterDiv);
 
 const button = document.createElement("button");
@@ -21,14 +21,24 @@ button.innerHTML = "🦕";
 app.append(button);
 
 const updateCounter = () => {
+    counterDiv.innerHTML = `${counter.toFixed(2)} dino's 🦕`;
+};
+
+button.addEventListener("click", () => {
     counter++;
-    counterDiv.innerHTML = `${counter} dino's 🦕`;
-  };
-  
-  button.addEventListener("click", () => {
     updateCounter();
-  });
-  
-  setInterval(() => {
+});
+
+let lastTime: number | null = null;
+function step (timestamp: number){
+    if (lastTime === null){
+        lastTime = timestamp;
+    }
+    const elapsedTime = timestamp - lastTime;
+    counter += elapsedTime / interval;
     updateCounter();
-  }, interval);
+    lastTime = timestamp;
+    requestAnimationFrame(step);
+}
+
+requestAnimationFrame(step);
