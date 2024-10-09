@@ -12,6 +12,6 @@ app.append(header);
 const button = document.createElement("button");
 button.innerHTML = "🦕";
 button.onclick = () => {
-    console.log("working!");
-  };
+  console.log("working!");
+};
 app.append(button);
