@@ -31,7 +31,7 @@ app.append(growthRateDiv);
 
 // creating div to display how many of each upgrade bought
 const upgradeDiv = document.createElement("div");
-upgradeDiv.innerHTML = `First cost: ${bought10}, Second cost: ${bought100}, Third cost: ${bought1000}`;
+upgradeDiv.innerHTML = `interns: ${bought10}, amateurs: ${bought100}, professionals: ${bought1000}`;
 app.append(upgradeDiv);
 
 // creating dino clicking button
@@ -41,19 +41,19 @@ app.append(button);
 
 // creating the 10 cost upgrade button
 const buy10Button = document.createElement("button");
-buy10Button.innerHTML = `Purchase Upgrade for ${costFirst} dino's 🦕`;
+buy10Button.innerHTML = `Pay another Intern for ${costFirst.toFixed(3)} dino's 🦕`;
 buy10Button.disabled = true;
 app.append(buy10Button);
 
 // creating the 100 cost upgrade button
 const buy100Button = document.createElement("button");
-buy100Button.innerHTML = `Purchase Upgrade for ${costSecond} dino's 🦕`;
+buy100Button.innerHTML = `Pay another amateur for ${costSecond.toFixed(3)} dino's 🦕`;
 buy100Button.disabled = true;
 app.append(buy100Button);
 
 // creating the 1000 cost upgrade button
 const buy1000Button = document.createElement("button");
-buy1000Button.innerHTML = `Purchase Upgrade for ${costThird} dino's 🦕`;
+buy1000Button.innerHTML = `Pay another professional for ${costThird.toFixed(3)} dino's 🦕`;
 buy1000Button.disabled = true;
 app.append(buy1000Button);
 
@@ -61,10 +61,10 @@ app.append(buy1000Button);
 const updateCounter = () => {
   counterDiv.innerHTML = `${counter.toFixed(2)} dino's 🦕`;
   growthRateDiv.innerHTML = `Adding ${growthRate.toFixed(1)} dino's 🦕 per second`;
-  upgradeDiv.innerHTML = `First cost: ${bought10}, second cost: ${bought100}, third cost: ${bought1000}`;
-  buy10Button.innerHTML = `Purchase Upgrade for ${costFirst.toFixed(3)} dino's 🦕`;
-  buy100Button.innerHTML = `Purchase Upgrade for ${costSecond.toFixed(3)} dino's 🦕`;
-  buy1000Button.innerHTML = `Purchase Upgrade for ${costThird.toFixed(3)} dino's 🦕`;
+  upgradeDiv.innerHTML = `interns: ${bought10}, amateurs: ${bought100}, professionals: ${bought1000}`;
+  buy10Button.innerHTML = `Pay another Intern for ${costFirst.toFixed(3)} dino's 🦕`;
+  buy100Button.innerHTML = `Pay another amateur for ${costSecond.toFixed(3)} dino's 🦕`;
+  buy1000Button.innerHTML = `Pay another professional for ${costThird.toFixed(3)} dino's 🦕`;
   buy10Button.disabled = counter < costFirst;
   buy100Button.disabled = counter < costSecond;
   buy1000Button.disabled = counter < costThird;
@@ -82,7 +82,7 @@ buy10Button.addEventListener("click", () => {
     counter -= costFirst;
     growthRate += 0.1;
     bought10++;
-    costFirst*=1.15;
+    costFirst *= 1.15;
     updateCounter();
   }
 });
@@ -93,7 +93,7 @@ buy100Button.addEventListener("click", () => {
     counter -= costSecond;
     growthRate += 2;
     bought100++;
-    costSecond*=1.15;
+    costSecond *= 1.15;
     updateCounter();
   }
 });
@@ -104,7 +104,7 @@ buy1000Button.addEventListener("click", () => {
     counter -= costThird;
     growthRate += 50;
     bought1000++;
-    costThird*=1.15;
+    costThird *= 1.15;
     updateCounter();
   }
 });
