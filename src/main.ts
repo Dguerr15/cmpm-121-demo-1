@@ -9,15 +9,22 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
+interface Item {
+  name: string,
+  cost: number,
+  rate: number,
+  bought: number
+};
+
+const availableItems : Item[] =[
+  {name : "intern", cost : 10, rate : .1, bought : 0},
+  {name : "amateur", cost : 100, rate : 2, bought : 0},
+  {name : "profesional", cost : 1000, rate : 50, bought : 0},
+]
+
 let counter: number = 0; // keeps count of dinos
 const interval: number = 1000; // how often I want a dino to auto add
 let growthRate: number = 1; // how much faster it adds dinos automatically
-let bought10: number = 0;
-let bought100: number = 0;
-let bought1000: number = 0;
-let costFirst: number = 10;
-let costSecond: number = 100;
-let costThird: number = 1000;
 
 // creating div to display counter
 const counterDiv = document.createElement("div");
@@ -31,7 +38,6 @@ app.append(growthRateDiv);
 
 // creating div to display how many of each upgrade bought
 const upgradeDiv = document.createElement("div");
-upgradeDiv.innerHTML = `interns: ${bought10}, amateurs: ${bought100}, professionals: ${bought1000}`;
 app.append(upgradeDiv);
 
 // creating dino clicking button
@@ -39,74 +45,45 @@ const button = document.createElement("button");
 button.innerHTML = "🦕";
 app.append(button);
 
-// creating the 10 cost upgrade button
-const buy10Button = document.createElement("button");
-buy10Button.innerHTML = `Pay another Intern for ${costFirst.toFixed(3)} dino's 🦕`;
-buy10Button.disabled = true;
-app.append(buy10Button);
-
-// creating the 100 cost upgrade button
-const buy100Button = document.createElement("button");
-buy100Button.innerHTML = `Pay another amateur for ${costSecond.toFixed(3)} dino's 🦕`;
-buy100Button.disabled = true;
-app.append(buy100Button);
-
-// creating the 1000 cost upgrade button
-const buy1000Button = document.createElement("button");
-buy1000Button.innerHTML = `Pay another professional for ${costThird.toFixed(3)} dino's 🦕`;
-buy1000Button.disabled = true;
-app.append(buy1000Button);
+// creating buttons with the item interface by mapping each available item
+const buttons: HTMLButtonElement[] = availableItems.map((item) => {
+  const buyButton = document.createElement("button");
+  buyButton.innerHTML = `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
+  buyButton.disabled = true;
+  buyButton.addEventListener("click", ()=>{
+    if (counter >= item.cost) {
+      counter -= item.cost;
+      growthRate += item.rate;
+      item.bought++;
+      item.cost *= 1.15;
+      updateCounter();
+    }
+  });
+  app.append(buyButton);
+  return buyButton;
+});
 
 // function to update counter
 const updateCounter = () => {
   counterDiv.innerHTML = `${counter.toFixed(2)} dino's 🦕`;
   growthRateDiv.innerHTML = `Adding ${growthRate.toFixed(1)} dino's 🦕 per second`;
-  upgradeDiv.innerHTML = `interns: ${bought10}, amateurs: ${bought100}, professionals: ${bought1000}`;
-  buy10Button.innerHTML = `Pay another Intern for ${costFirst.toFixed(3)} dino's 🦕`;
-  buy100Button.innerHTML = `Pay another amateur for ${costSecond.toFixed(3)} dino's 🦕`;
-  buy1000Button.innerHTML = `Pay another professional for ${costThird.toFixed(3)} dino's 🦕`;
-  buy10Button.disabled = counter < costFirst;
-  buy100Button.disabled = counter < costSecond;
-  buy1000Button.disabled = counter < costThird;
+
+  // getting the names and how many were bought from the item interface then joining into one div
+  upgradeDiv.innerHTML = availableItems
+  .map((item) => `${item.name}s: ${item.bought}`)
+  .join(", ");
+
+  // Update each button's label and state
+  availableItems.forEach((item, index) => {
+    buttons[index].innerHTML = `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
+    buttons[index].disabled = counter < item.cost;
+  });
 };
 
 // increase counter when button clicked
 button.addEventListener("click", () => {
   counter++;
   updateCounter();
-});
-
-// puchase 10 cost upgrade when button clicked
-buy10Button.addEventListener("click", () => {
-  if (counter >= costFirst) {
-    counter -= costFirst;
-    growthRate += 0.1;
-    bought10++;
-    costFirst *= 1.15;
-    updateCounter();
-  }
-});
-
-// puchase 100 cost upgrade when button clicked
-buy100Button.addEventListener("click", () => {
-  if (counter >= costSecond) {
-    counter -= costSecond;
-    growthRate += 2;
-    bought100++;
-    costSecond *= 1.15;
-    updateCounter();
-  }
-});
-
-// puchase 1000 cost upgrade when button clicked
-buy1000Button.addEventListener("click", () => {
-  if (counter >= costThird) {
-    counter -= costThird;
-    growthRate += 50;
-    bought1000++;
-    costThird *= 1.15;
-    updateCounter();
-  }
 });
 
 // logic for increasing counter by decimals
@@ -121,5 +98,4 @@ function step(timestamp: number) {
   lastTime = timestamp;
   requestAnimationFrame(step);
 }
-
 requestAnimationFrame(step);
