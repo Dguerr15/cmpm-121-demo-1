@@ -14,14 +14,15 @@ interface Item {
   cost: number;
   rate: number;
   bought: number;
+  description: string;
 }
 
 const availableItems: Item[] = [
-  { name: "intern", cost: 10, rate: 0.1, bought: 0 },
-  { name: "amateur", cost: 100, rate: 2, bought: 0 },
-  { name: "profesional", cost: 1000, rate: 50, bought: 0 },
-  { name: "super dino wizard", cost: 10000, rate: 200, bought:0},
-  { name: "Owen Grady", cost: 100000, rate: 5000, bought:0}
+  { name: "intern", cost: 10, rate: 0.1, bought: 0, description: "A dino enthusiast intern to round up dinos for you. Increases your dino count slowly but steadily."},
+  { name: "amateur", cost: 100, rate: 2, bought: 0, description: "An amateur dino wrangler. They're better at this than you'd think, adding dinos at a faster pace!" },
+  { name: "profesional", cost: 1000, rate: 50, bought: 0, description: "A certified professional dino wrangler. This expert floods your ranch with dinos in no time!" },
+  { name: "super dino wizard", cost: 10000, rate: 200, bought: 0, description: "A mystical Super Dino Wizard! He uses ancient magic to summon dinos from the ether, making them appear out of nowhere!" },
+  { name: "Owen Grady", cost: 100000, rate: 5000, bought: 0, description: "The legendary velociraptor trainer himself! Owen Grady can train entire packs of dinos, boosting your dino count dramatically!" }
 ];
 
 let counter: number = 0; // keeps count of dinos
@@ -52,6 +53,10 @@ const buttons: HTMLButtonElement[] = availableItems.map((item) => {
   const buyButton = document.createElement("button");
   buyButton.innerHTML = `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
   buyButton.disabled = true;
+
+  // description of item
+  buyButton.title = item.description;
+
   buyButton.addEventListener("click", () => {
     if (counter >= item.cost) {
       counter -= item.cost;
