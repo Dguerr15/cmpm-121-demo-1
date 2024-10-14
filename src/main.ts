@@ -10,17 +10,19 @@ header.innerHTML = gameName;
 app.append(header);
 
 interface Item {
-  name: string,
-  cost: number,
-  rate: number,
-  bought: number
-};
+  name: string;
+  cost: number;
+  rate: number;
+  bought: number;
+}
 
-const availableItems : Item[] =[
-  {name : "intern", cost : 10, rate : .1, bought : 0},
-  {name : "amateur", cost : 100, rate : 2, bought : 0},
-  {name : "profesional", cost : 1000, rate : 50, bought : 0},
-]
+const availableItems: Item[] = [
+  { name: "intern", cost: 10, rate: 0.1, bought: 0 },
+  { name: "amateur", cost: 100, rate: 2, bought: 0 },
+  { name: "profesional", cost: 1000, rate: 50, bought: 0 },
+  { name: "super dino wizard", cost: 10000, rate: 200, bought:0},
+  { name: "Owen Grady", cost: 100000, rate: 5000, bought:0}
+];
 
 let counter: number = 0; // keeps count of dinos
 const interval: number = 1000; // how often I want a dino to auto add
@@ -50,7 +52,7 @@ const buttons: HTMLButtonElement[] = availableItems.map((item) => {
   const buyButton = document.createElement("button");
   buyButton.innerHTML = `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
   buyButton.disabled = true;
-  buyButton.addEventListener("click", ()=>{
+  buyButton.addEventListener("click", () => {
     if (counter >= item.cost) {
       counter -= item.cost;
       growthRate += item.rate;
@@ -70,12 +72,13 @@ const updateCounter = () => {
 
   // getting the names and how many were bought from the item interface then joining into one div
   upgradeDiv.innerHTML = availableItems
-  .map((item) => `${item.name}s: ${item.bought}`)
-  .join(", ");
+    .map((item) => `${item.name}s: ${item.bought}`)
+    .join(", ");
 
   // Update each button's label and state
   availableItems.forEach((item, index) => {
-    buttons[index].innerHTML = `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
+    buttons[index].innerHTML =
+      `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
     buttons[index].disabled = counter < item.cost;
   });
 };
