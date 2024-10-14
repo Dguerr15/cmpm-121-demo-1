@@ -12,6 +12,9 @@ app.append(header);
 let counter: number = 0; // keeps count of dinos
 const interval: number = 1000; // how often I want a dino to auto add
 let growthRate: number = 1; // how much faster it adds dinos automatically
+let bought10: number = 0;
+let bought100: number = 0;
+let bought1000: number = 0;
 
 // creating div to display counter
 const counterDiv = document.createElement("div");
@@ -22,6 +25,11 @@ app.append(counterDiv);
 const growthRateDiv = document.createElement("div");
 growthRateDiv.innerHTML = `Adding ${growthRate} dino's 🦕 per second`;
 app.append(growthRateDiv);
+
+// creating div to display how many of each upgrade bought
+const upgradeDiv = document.createElement("div");
+upgradeDiv.innerHTML = `$10 cost: ${bought10}, 100 cost: ${bought100}, 1000 cost: ${bought1000}`;
+app.append(upgradeDiv);
 
 // creating dino clicking button
 const button = document.createElement("button");
@@ -50,6 +58,7 @@ app.append(buy1000Button);
 const updateCounter = () => {
   counterDiv.innerHTML = `${counter.toFixed(2)} dino's 🦕`;
   growthRateDiv.innerHTML = `Adding ${growthRate.toFixed(1)} dino's 🦕 per second`;
+  upgradeDiv.innerHTML = `$10 cost: ${bought10}, 100 cost: ${bought100}, 1000 cost: ${bought1000}`;
   buy10Button.disabled = counter < 10;
   buy100Button.disabled = counter < 100;
   buy1000Button.disabled = counter < 1000;
@@ -66,6 +75,7 @@ buy10Button.addEventListener("click", () => {
   if (counter >= 10) {
     counter -= 10;
     growthRate += 0.1;
+    bought10++;
     updateCounter();
   }
 });
@@ -75,6 +85,7 @@ buy100Button.addEventListener("click", () => {
   if (counter >= 100) {
     counter -= 100;
     growthRate += 2;
+    bought100++;
     updateCounter();
   }
 });
@@ -84,6 +95,7 @@ buy1000Button.addEventListener("click", () => {
   if (counter >= 1000) {
     counter -= 1000;
     growthRate += 50;
+    bought1000++;
     updateCounter();
   }
 });
@@ -95,7 +107,7 @@ function step(timestamp: number) {
     lastTime = timestamp;
   }
   const elapsedTime = timestamp - lastTime;
-  counter += (elapsedTime / interval) * (growthRate);
+  counter += (elapsedTime / interval) * growthRate;
   updateCounter();
   lastTime = timestamp;
   requestAnimationFrame(step);
