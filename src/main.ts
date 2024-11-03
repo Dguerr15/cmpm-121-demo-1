@@ -18,11 +18,46 @@ interface Item {
 }
 
 const availableItems: Item[] = [
-  { name: "intern", cost: 10, rate: 0.1, bought: 0, description: "A dino enthusiast intern to round up dinos for you. Increases your dino count slowly but steadily."},
-  { name: "amateur", cost: 100, rate: 2, bought: 0, description: "An amateur dino wrangler. They're better at this than you'd think, adding dinos at a faster pace!" },
-  { name: "profesional", cost: 1000, rate: 50, bought: 0, description: "A certified professional dino wrangler. This expert floods your ranch with dinos in no time!" },
-  { name: "super dino wizard", cost: 10000, rate: 200, bought: 0, description: "A mystical Super Dino Wizard! He uses ancient magic to summon dinos from the ether, making them appear out of nowhere!" },
-  { name: "Owen Grady", cost: 100000, rate: 5000, bought: 0, description: "The legendary velociraptor trainer himself! Owen Grady can train entire packs of dinos, boosting your dino count dramatically!" }
+  {
+    name: "intern",
+    cost: 10,
+    rate: 0.1,
+    bought: 0,
+    description:
+      "A dino enthusiast intern to round up dinos for you. Increases your dino count slowly but steadily.",
+  },
+  {
+    name: "amateur",
+    cost: 100,
+    rate: 2,
+    bought: 0,
+    description:
+      "An amateur dino wrangler. They're better at this than you'd think, adding dinos at a faster pace!",
+  },
+  {
+    name: "profesional",
+    cost: 1000,
+    rate: 50,
+    bought: 0,
+    description:
+      "A certified professional dino wrangler. This expert floods your ranch with dinos in no time!",
+  },
+  {
+    name: "super dino wizard",
+    cost: 10000,
+    rate: 200,
+    bought: 0,
+    description:
+      "A mystical Super Dino Wizard! He uses ancient magic to summon dinos from the ether, making them appear out of nowhere!",
+  },
+  {
+    name: "Owen Grady",
+    cost: 100000,
+    rate: 5000,
+    bought: 0,
+    description:
+      "The legendary velociraptor trainer himself! Owen Grady can train entire packs of dinos, boosting your dino count dramatically!",
+  },
 ];
 
 let counter: number = 0; // keeps count of dinos
@@ -44,9 +79,14 @@ const upgradeDiv = document.createElement("div");
 app.append(upgradeDiv);
 
 // creating dino clicking button
-const button = document.createElement("button");
-button.innerHTML = "🦕";
-app.append(button);
+const clickButton = document.createElement("button");
+clickButton.innerHTML = "🦕";
+clickButton.style.display = "block";
+clickButton.style.fontSize = "2em";
+clickButton.style.margin = "auto";
+clickButton.style.width = "20%";
+clickButton.style.height = "100px";
+app.append(clickButton);
 
 // creating buttons with the item interface by mapping each available item
 const buttons: HTMLButtonElement[] = availableItems.map((item) => {
@@ -89,7 +129,7 @@ const updateCounter = () => {
 };
 
 // increase counter when button clicked
-button.addEventListener("click", () => {
+clickButton.addEventListener("click", () => {
   counter++;
   updateCounter();
 });
