@@ -1,13 +1,13 @@
 import "./style.css";
-
+// SETUP AND INITIALIZATION
 const app: HTMLDivElement = document.querySelector("#app")!;
 
 const gameName = "Dino Wrangler";
 document.title = gameName;
 
-const header = document.createElement("h1");
-header.innerHTML = gameName;
-app.append(header);
+let counter: number = 0; // keeps count of dinos
+const interval: number = 1000; // how often I want a dino to auto add
+let growthRate: number = 1; // how much faster it adds dinos automatically
 
 interface Item {
   name: string;
@@ -35,7 +35,7 @@ const availableItems: Item[] = [
       "An amateur dino wrangler. They're better at this than you'd think, adding dinos at a faster pace!",
   },
   {
-    name: "profesional",
+    name: "professional",
     cost: 1000,
     rate: 50,
     bought: 0,
@@ -60,9 +60,10 @@ const availableItems: Item[] = [
   },
 ];
 
-let counter: number = 0; // keeps count of dinos
-const interval: number = 1000; // how often I want a dino to auto add
-let growthRate: number = 1; // how much faster it adds dinos automatically
+// UI CREATION
+const header = document.createElement("h1");
+header.innerHTML = gameName;
+app.append(header);
 
 // creating div to display counter
 const counterDiv = document.createElement("div");
@@ -86,6 +87,11 @@ clickButton.style.fontSize = "2em";
 clickButton.style.margin = "auto";
 clickButton.style.width = "20%";
 clickButton.style.height = "100px";
+// increase counter when button clicked
+clickButton.addEventListener("click", () => {
+  counter++;
+  updateCounter();
+});
 app.append(clickButton);
 
 // creating buttons with the item interface by mapping each available item
@@ -112,7 +118,7 @@ const buttons: HTMLButtonElement[] = availableItems.map((item) => {
 
 // function to update counter
 const updateCounter = () => {
-  counterDiv.innerHTML = `${counter.toFixed(2)} dino's 🦕`;
+  counterDiv.innerHTML = `Total dino 🦕 count: ${counter.toFixed(2)}`;
   growthRateDiv.innerHTML = `Adding ${growthRate.toFixed(1)} dino's 🦕 per second`;
 
   // getting the names and how many were bought from the item interface then joining into one div
@@ -127,12 +133,6 @@ const updateCounter = () => {
     buttons[index].disabled = counter < item.cost;
   });
 };
-
-// increase counter when button clicked
-clickButton.addEventListener("click", () => {
-  counter++;
-  updateCounter();
-});
 
 // logic for increasing counter by decimals
 let lastTime: number | null = null;
