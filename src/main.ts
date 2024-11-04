@@ -61,22 +61,26 @@ const availableItems: Item[] = [
 ];
 
 // UI CREATION
+const createDiv = (text: string): HTMLDivElement =>{
+  const div = document.createElement("div");
+  div.innerHTML = text;
+  return div;
+}
+
 const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
 // creating div to display counter
-const counterDiv = document.createElement("div");
-counterDiv.innerHTML = `${counter.toFixed(2)} dino's 🦕`;
+const counterDiv = createDiv("${counter.toFixed(2)} dino's 🦕");
 app.append(counterDiv);
 
 // creating div to display growth rate
-const growthRateDiv = document.createElement("div");
-growthRateDiv.innerHTML = `Adding ${growthRate} dino's 🦕 per second`;
+const growthRateDiv = createDiv(`Adding ${growthRate} dino's 🦕 per second`);
 app.append(growthRateDiv);
 
 // creating div to display how many of each upgrade bought
-const upgradeDiv = document.createElement("div");
+const upgradeDiv = createDiv("");
 app.append(upgradeDiv);
 
 // creating dino clicking button
@@ -93,28 +97,31 @@ clickButton.addEventListener("click", () => {
   updateCounter();
 });
 app.append(clickButton);
+// button creation
+const buttons: HTMLButtonElement[] = availableItems.map(createItemButton);
+buttons.forEach(button => app.append(button));
 
-// creating buttons with the item interface by mapping each available item
-const buttons: HTMLButtonElement[] = availableItems.map((item) => {
+// creating buttons function
+function createItemButton(item: Item): HTMLButtonElement {
   const buyButton = document.createElement("button");
-  buyButton.innerHTML = `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
+  buyButton.textContent = `Pay another ${item.name} for ${item.cost.toFixed(3)} dino's 🦕`;
   buyButton.disabled = true;
-
-  // description of item
   buyButton.title = item.description;
 
-  buyButton.addEventListener("click", () => {
-    if (counter >= item.cost) {
-      counter -= item.cost;
-      growthRate += item.rate;
-      item.bought++;
-      item.cost *= 1.15;
-      updateCounter();
-    }
-  });
-  app.append(buyButton);
+  buyButton.addEventListener("click", () => handleBuyItem(item));
+
   return buyButton;
-});
+};
+
+function handleBuyItem(item: Item) {
+  if (counter >= item.cost) {
+    counter -= item.cost;
+    growthRate += item.rate;
+    item.bought++;
+    item.cost *= 1.15;
+    updateCounter();
+  }
+}
 
 // function to update counter
 const updateCounter = () => {
