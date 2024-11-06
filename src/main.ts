@@ -61,11 +61,11 @@ const availableItems: Item[] = [
 ];
 
 // UI CREATION
-const createDiv = (text: string): HTMLDivElement =>{
+const createDiv = (text: string): HTMLDivElement => {
   const div = document.createElement("div");
   div.innerHTML = text;
   return div;
-}
+};
 
 const header = document.createElement("h1");
 header.innerHTML = gameName;
@@ -99,7 +99,7 @@ clickButton.addEventListener("click", () => {
 app.append(clickButton);
 // button creation
 const buttons: HTMLButtonElement[] = availableItems.map(createItemButton);
-buttons.forEach(button => app.append(button));
+buttons.forEach((button) => app.append(button));
 
 // creating buttons function
 function createItemButton(item: Item): HTMLButtonElement {
@@ -111,7 +111,7 @@ function createItemButton(item: Item): HTMLButtonElement {
   buyButton.addEventListener("click", () => handleBuyItem(item));
 
   return buyButton;
-};
+}
 
 function handleBuyItem(item: Item) {
   if (counter >= item.cost) {

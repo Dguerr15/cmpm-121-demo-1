@@ -14,6 +14,54 @@
   -webkit-text-size-adjust: 100%;
 }
 
+@keyframes backgroundChange {
+  0% {
+    background-color: #00a6a6;
+  }
+  25% {
+    background-color: #66cccc;
+  }
+  50% {
+    background-color: #99e6e6;
+  }
+  75% {
+    background-color: #66cccc;
+  }
+  100% {
+    background-color: #00a6a6;
+  }
+}
+@keyframes wiggle {
+  0% {
+    transform: translateY(0em) rotate(0deg) skew(2deg, 1deg) scale(1);
+  }
+  25% {
+    transform: translateY(0.02em) rotate(2deg) scale(1.02);
+  }
+  50% {
+    transform: translateY(0em) rotate(0deg) skew(-2deg, -1deg) scale(1.03);
+  }
+  75% {
+    transform: translateY(0.02em) rotate(-2deg) scale(1.02);
+  }
+  100% {
+    transform: translateY(0em) rotate(0deg) skew(2deg, 1deg);
+  }
+}
+@keyframes shake{
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-0.1em);
+  }
+  50% {
+    transform: translateX(0.1em);
+  }
+  75% {
+    transform: translateX(-0.1em);
+  }
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -29,11 +77,15 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  animation: backgroundChange 20s infinite alternate;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: #e5e233;
+  transition: ease;
+  animation: wiggle 1s infinite;
 }
 
 #app {
@@ -50,12 +102,22 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #f98740;
+  color: #000000;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.3s, border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #db6f27;
+}
+button:active {
+  animation: shake 0.3s;
+}
+button:disabled {
+  background-color: #e0a16a;  
+  color: #7d7d7d;
+  cursor: not-allowed;
+  border-color: #999;
 }
 button:focus,
 button:focus-visible {
@@ -71,6 +133,8 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #ee7326;
+    color: #213547;
+
   }
 }
